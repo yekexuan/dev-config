@@ -131,6 +131,7 @@ noremap <leader>0 :tablast<cr>
 "========================== 插件列表 ====================
 call plug#begin('~/.vim/plugged')
 
+Plug 'junegunn/vim-easy-align'
 Plug 'Lokaltog/vim-powerline'
 Plug 'bling/vim-airline'
 Plug 'dyng/ctrlsf.vim'
@@ -231,6 +232,7 @@ let g:ycm_min_num_identifier_candidate_chars = 2
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_complete_in_strings=1
 let g:ycm_key_invoke_completion = '<c-z>'
+let g:ycm_confirm_extra_conf=0
 set completeopt=menu,menuone
 
 noremap <c-z> <NOP>
@@ -262,6 +264,12 @@ let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
 let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
 let g:ale_c_cppcheck_options = ''
 let g:ale_cpp_cppcheck_options = ''
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 "========================== 配置结束 ======================
 
@@ -314,24 +322,6 @@ let g:ale_cpp_cppcheck_options = ''
 "hi CtrlSpaceSearch   guifg=#cb4b16 guibg=NONE gui=bold ctermfg=9 ctermbg=NONE term=bold cterm=bold
 "hi CtrlSpaceStatus   guifg=#839496 guibg=#002b36 gui=reverse term=reverse cterm=reverse ctermfg=12 ctermbg=8
 "let g:ctrlspace_default_mapping_key="<leader>b"
-""Vundle配置必须 开启插件
-"filetype plugin indent on
-"
-"
-"syntax enable
-"" theme 主题 设置。 true
-"set t_Co=256
-"set background=dark
-"let g:rehash256 = 1
-"" colorscheme molokai
-"" colorscheme beekai
-"" let g:molokai_original=1
-"
-"colorscheme solarized
-"" colorscheme wells-colors
-"let g:solarized_contrast="normal"
-"let g:solarized_visibility="normal"
-"let g:solarized_termtrans=1
 "
 "" git插件
 "" Bundle "tpope/vim-fugitive"
@@ -345,30 +335,6 @@ let g:ale_cpp_cppcheck_options = ''
 "set wildmenu
 "" Ignore compiled files
 "set wildignore=*.o,*~,*.pyc,*.class
-"
-"" tab 操作
-"" TODO: ctrl + n 变成切换tab的方法
-"" http://vim.wikia.com/wiki/Alternative_tab_navigation
-""
-"" http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
-""map <C-2> 2gt
-"map <leader>th :tabfirst<cr>
-"map <leader>tl :tablast<cr>
-"
-"map <leader>tj :tabnext<cr>
-"map <leader>tk :tabprev<cr>
-"map <leader>tn :tabnext<cr>
-"map <leader>tp :tabprev<cr>
-"
-"map <leader>te :tabedit<cr>
-"map <leader>td :tabclose<cr>
-"map <leader>tm :tabm<cr>
-"
-"" 新建tab  Ctrl+t
-"nnoremap <leader>tt :tabnew<CR>
-"" inoremap <C-t>     <Esc>:tabnew<CR>
-"let g:last_active_tab = 1
-"
 "
 "set nocompatible
 "set hidden
