@@ -140,6 +140,16 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'w0rp/ale'
+Plug 'lfv89/vim-interestingwords'
+" Plug 'Shougo/deoplete-clangx'
+Plug 'tenfyzhong/CompleteParameter.vim'
+Plug 'Raimondi/delimitMate'
+
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+" Plug '2072/PHP-Indenting-for-VIm', { 'for': 'php' }
+" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer update' }
+" Plug 'lvht/phpfold.vim', { 'for': 'php', 'do': 'composer update' }
 
 function! BuildYCM(info)
   " info is a dictionary with 3 fields
@@ -150,6 +160,7 @@ function! BuildYCM(info)
     !./install.py
   endif
 endfunction
+
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
 " 新版替代tagbar插件.
@@ -171,6 +182,9 @@ let g:gutentags_ctags_tagfile = '.tags'
 let s:vim_tags = expand('~/.cache/tags')
 let g:gutentags_cache_dir = s:vim_tags
 
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#file#enable_buffer_path = 1
+
 " 配置 ctags 的参数
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
@@ -178,15 +192,16 @@ let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 
 " 检测 ~/.cache/tags 不存在就新建
 if !isdirectory(s:vim_tags)
-   silent! call mkdir(s:vim_tags, 'p')
+    silent! call mkdir(s:vim_tags, 'p')
 endif
 
 " 自动打开 quickfix window ，高度为 6
-let g:asyncrun_open = 6
+let g:asyncrun_open = 15
 " 任务结束时候响铃提醒
 let g:asyncrun_bell = 1
 " 设置 F10 打开/关闭 Quickfix 窗口
-nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
+nnoremap <F10> :call asyncrun#quickfix_toggle(15)<cr>
+map <leader>r :AsyncRun 
 
 " ctrlsf 文件搜索，依赖ack: brew install ack
 let g:ctrlsf_default_view_mode = 'compact'
@@ -225,6 +240,7 @@ nmap <Leader>e :LeaderfFunction<CR>
 " 打开新的TAB.
 nnoremap <leader>tt :tabnew<CR>
 " 补全设置
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_server_log_level = 'info'
@@ -238,9 +254,9 @@ set completeopt=menu,menuone
 noremap <c-z> <NOP>
 
 let g:ycm_semantic_triggers =  {
-           \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{1}'],
-           \ 'cs,lua,javascript': ['re!\w{2}'],
-           \ }
+            \ 'c,cpp,python,java,go,php,erlang,perl': ['re!\w{1}'],
+            \ 'cs,lua,javascript': ['re!\w{2}'],
+            \ }
 
 " vim 主题 solarized
 let g:solarized_termtrans=1
@@ -250,20 +266,42 @@ let g:solarized_visibility="normal"
 " 快速去行尾空格 使用方法：  [, + <Space>]
 map <leader><space> :FixWhitespace<cr>
 
-" 语法检查
-let g:ale_linters_explicit = 1
-let g:ale_completion_delay = 500
-let g:ale_echo_delay = 20
-let g:ale_lint_delay = 500
-let g:ale_echo_msg_format = '[%linter%] %code: %%s'
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-let g:airline#extensions#ale#enabled = 1
+inoremap <silent><expr> ( complete_parameter#pre_complete("()")
+" smap <c-q> <Plug>(complete_parameter#goto_next_parameter)
+" imap <c-q> <Plug>(complete_parameter#goto_next_parameter)
+" smap <c-e> <Plug>(complete_parameter#goto_previous_parameter)
+" imap <c-e> <Plug>(complete_parameter#goto_previous_parameter)
 
-let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
-let g:ale_c_cppcheck_options = ''
-let g:ale_cpp_cppcheck_options = ''
+" 语法检查ale 扩展配置.
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_text_changed = 0
+let g:ale_open_list = 1
+
+"let g:ale_linters_explicit = 1
+"let g:ale_completion_delay = 500
+"let g:ale_echo_delay = 20
+"let g:ale_lint_delay = 500
+"let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+"let g:ale_lint_on_text_changed = 'normal'
+"let g:ale_lint_on_insert_leave = 1
+"let g:airline#extensions#ale#enabled = 1
+"
+"let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+"let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+"let g:ale_c_cppcheck_options = ''
+"let g:ale_cpp_cppcheck_options = ''
+"let g:ale_linters = {
+"\   'php': ['php -l'],
+"\}
+
+" let g:ale_sign_error = "\ue009\ue009"
+" hi! clear SpellBad
+" hi! clear SpellCap
+" hi! clear SpellRare
+" hi! SpellBad gui=undercurl guisp=red
+" hi! SpellCap gui=undercurl guisp=blue
+" hi! SpellRare gui=undercurl guisp=magenta
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
@@ -352,3 +390,8 @@ nmap ga <Plug>(EasyAlign)
 "autocmd FileType js setlocal tabstop=2 shiftwidth=2 softtabstop=2
 "autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2
 "" autocmd filetype vimshell inoremap <Esc> <S>
+
+" 将光标跳转到上次打开当前文件的位置 {{{
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
+            \ execute "normal! g`\"" |
+            \ endif " }}}
