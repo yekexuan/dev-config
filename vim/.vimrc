@@ -145,6 +145,12 @@ Plug 'lfv89/vim-interestingwords'
 Plug 'tenfyzhong/CompleteParameter.vim'
 Plug 'Raimondi/delimitMate'
 
+Plug 'Shougo/deoplete.nvim'
+Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'kristijanhusak/deoplete-phpactor'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Plug '2072/PHP-Indenting-for-VIm', { 'for': 'php' }
@@ -152,16 +158,16 @@ Plug 'Raimondi/delimitMate'
 " Plug 'lvht/phpfold.vim', { 'for': 'php', 'do': 'composer update' }
 
 function! BuildYCM(info)
-  " info is a dictionary with 3 fields
-  " - name:   name of the plugin
-  " - status: 'installed', 'updated', or 'unchanged'
-  " - force:  set on PlugInstall! or PlugUpdate!
-  if a:info.status == 'installed' || a:info.force
-    !./install.py
-  endif
+    " info is a dictionary with 3 fields
+    " - name:   name of the plugin
+    " - status: 'installed', 'updated', or 'unchanged'
+    " - force:  set on PlugInstall! or PlugUpdate!
+    if a:info.status == 'installed' || a:info.force
+        !./install.py
+    endif
 endfunction
 
-Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+" Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
 " 新版替代tagbar插件.
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
